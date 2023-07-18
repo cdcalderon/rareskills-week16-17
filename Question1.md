@@ -1,20 +1,20 @@
-# Question 1: The OZ upgrade tool for hardhat defends against 6 kinds of mistakes. What are they and why do they matter?
+# Question 1: What are the six types of errors that the OpenZeppelin Hardhat Upgrades plugin helps to prevent, and why are they significant?
 
-The OpenZeppelin Hardhat Upgrades plugin provides a robust system to deploy and manage upgradeable contracts on Ethereum. It defends against six kinds of mistakes that can occur during the contract upgrade process:
+The OpenZeppelin Hardhat Upgrades plugin is a powerful tool for deploying and managing upgradeable contracts on the Ethereum network. It provides protection against several potential pitfalls that can arise during the contract upgrade process:
 
-1. **Unsafe Implementation**: The plugin validates that the contract implementation is upgrade safe. This is crucial because certain features in Solidity are not compatible with upgradeable contracts, such as the constructor function or the selfdestruct operation. The plugin checks for these features and prevents you from deploying a contract that uses them.
+1. **Unstructured Storage Protection**: The plugin strategically uses `keccak` to calculate specific storage slots for storing essential values (implementation, beacon, and admin). This method safeguards these slots from unintended overwrites, ensuring the proxy operates correctly.
 
-2. **Incompatible Upgrades**: When upgrading a contract, the plugin checks that the new implementation is not only upgrade safe, but also compatible with the previous implementation. This is important because changing the order or type of state variables in a contract can corrupt the storage when upgrading.
+2. **Constructor Issues and Unsafe Implementations**: The plugin addresses the issue that the constructor's bytecode is not part of the runtime code and hence won't execute within the proxy's context. It does this by shifting this code from the constructor to an initializer function, which is invoked when the proxy links to the logic contract. This function is designed to run only once, avoiding multiple executions. Additionally, the plugin ensures that the contract implementation doesn't use unsafe features like the `selfdestruct` opcode and `delegatecall` opcode.
 
-3. **Missing Proxy Admin**: The plugin automatically deploys a proxy admin for your project if needed. The proxy admin is the account that has the rights to upgrade the proxy. If it's missing, you won't be able to upgrade your contracts.
+3. **Function Collisions**: The plugin uses the address of the caller to decide whether to delegate the call. If the admin is the caller, the proxy will not delegate any calls, thereby avoiding function clashes.
 
-4. **Redundant Deployments**: The plugin checks if there is an implementation contract deployed with the same bytecode, and deploys one if not. This prevents unnecessary deployments and helps to keep your project organized.
+4. **Incompatible Upgrades**: The plugin checks the new implementation for upgrade safety and compatibility with the previous implementation during a contract upgrade. This check is vital because altering the order or type of state variables in a contract can lead to storage corruption during the upgrade.
 
-5. **Untracked Deployments**: The plugin keeps track of all the implementation contracts you have deployed in an `.openzeppelin` folder in the project root, as well as the proxy admin. This is important for managing your project and knowing which contracts have been deployed and where.
+5. **Missing Proxy Admin**: The plugin automatically deploys a proxy admin for your project if required. The proxy admin is the account with the rights to upgrade the proxy. Without it, you cannot upgrade your contracts.
 
-6. **Incorrect Proxy Usage**: The plugin provides functions to manage proxy admin rights and to interact with your contracts correctly. For example, it provides a function to change the admin of a proxy. This is important because the admin of a proxy can only upgrade it, but not interact with the implementation contract.
+6. **Redundant Deployments and Untracked Deployments**: The plugin checks for an existing implementation contract with the same bytecode before deploying a new one, preventing unnecessary deployments. It also keeps track of all deployed implementation contracts in an `.openzeppelin` folder in the project root, including the proxy admin. This tracking is crucial for project management and for keeping track of which contracts have been deployed and where.
 
-These safeguards are important because mistakes in the upgrade process can lead to loss of funds, corrupted contract storage, or contracts becoming stuck in an irrecoverable state. By using the OpenZeppelin Hardhat Upgrades plugin, you can avoid these pitfalls and ensure that your upgrade process is safe and reliable.
+These safeguards are crucial as mistakes in the upgrade process can lead to loss of funds, corrupted contract storage, or contracts becoming stuck in an irrecoverable state. By using the OpenZeppelin Hardhat Upgrades plugin, you can sidestep these issues and ensure a safe and reliable upgrade process.
 
 Resources:
 
