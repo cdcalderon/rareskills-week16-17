@@ -23,3 +23,7 @@ contract CarlosNFTContract is Initializable, ERC721Upgradeable {
         return value;
     }
 }
+
+// npx hardhat run --network goerli scripts/deployNFT.js
+// CarlosNFTContract Proxy Address: 0xB7a00899baa9f8f6E35b97Ead670Df4c88eb7f00
+// CarlosNFTContract Implementation Address: 0xB14A7b6138A15e1c3397f8838C59f9b49D7a6E06
